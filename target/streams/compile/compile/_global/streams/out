@@ -1,2 +1,6 @@
-[0m[[0m[0mdebug[0m] [0m[0mAcquiring lock on file /home/julie/Bureau/Scala/PJ/project/target/.sbt-compilation-infos/pj-compile/.sbt-idea-lock ...[0m
-[0m[[0m[0mdebug[0m] [0m[0mReleasing lock on file /home/julie/Bureau/Scala/PJ/project/target/.sbt-compilation-infos/pj-compile/.sbt-idea-lock.[0m
+[0m[[0m[0mdebug[0m] [0m[0mAcquiring lock on file /home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/project/target/.sbt-compilation-infos/pj_scala_airport-compile/.sbt-idea-lock ...[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/src/main/scala/PJ_SCALA_AIRPORT.scala:25:7: a pure expression does nothing in statement position; multiline expressions might require enclosing parentheses[0m
+[0m[[0m[33mwarn[0m] [0m[0m      """val airports_list = airports.map { airports => Airport(id = airports(cols(0)), ident = cols(1),[0m
+[0m[[0m[33mwarn[0m] [0m[0m      ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[0mdebug[0m] [0m[0mReleasing lock on file /home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/project/target/.sbt-compilation-infos/pj_scala_airport-compile/.sbt-idea-lock.[0m

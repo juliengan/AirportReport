@@ -1,4 +1,4 @@
-name := "PJ"
+name := "PJ_SCALA_AIRPORT"
 
 version := "0.1"
 
