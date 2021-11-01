@@ -2,6 +2,9 @@
 [0m[[0m[33mwarn[0m] [0m[0m/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/src/test/scala/PJ_SCALA_AIRPORT.scala:5:11: comparing values of types Unit and List[String] using `==` will always yield false[0m
 [0m[[0m[33mwarn[0m] [0m[0m    assert(PJ_SCALA_AIRPORT.get_airports() == Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/airports.csv").getLines().toList)[0m
 [0m[[0m[33mwarn[0m] [0m[0m          ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/src/test/scala/PJ_SCALA_AIRPORT.scala:8:11: comparing values of types Unit and List[String] using `==` will always yield false[0m
+[0m[[0m[33mwarn[0m] [0m[0m    assert(PJ_SCALA_AIRPORT.get_countries() == Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/countries.csv").getLines().toList)[0m
+[0m[[0m[33mwarn[0m] [0m[0m          ^[0m
 [0m[[0m[33mwarn[0m] [0m[0mthere was one deprecation warning (since 3.1.0); re-run with -deprecation for details[0m
-[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m
 [0m[[0m[0mdebug[0m] [0m[0mReleasing lock on file /home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/project/target/.sbt-compilation-infos/pj_scala_airport-test/.sbt-idea-lock.[0m

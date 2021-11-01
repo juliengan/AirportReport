@@ -2,39 +2,31 @@
 [0m[[0m[0mdebug[0m] [0m[0mIncrementalCompile.incrementalCompile[0m
 [0m[[0m[0mdebug[0m] [0m[0mprevious = Stamps for: 1 products, 1 sources, 3 libraries[0m
 [0m[[0m[0mdebug[0m] [0m[0mcurrent source = Set(${BASE}/src/test/scala/PJ_SCALA_AIRPORT.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0m> initialChanges = InitialChanges(Changes(added = Set(${BASE}/src/test/scala/PJ_SCALA_AIRPORT.scala), removed = Set(${BASE}/src/test/scala/PJ.scala), changed = Set(), unmodified = ...),Set(),Set(),API Changes: Set(NamesChange(PJ$,ModifiedNames(changes = UsedName(##,[Default]), UsedName(asInstanceOf,[Default]), UsedName(toString,[Default]), UsedName(notifyAll,[Default]), UsedName(eq,[Default]), UsedName(clone,[Default]), UsedName($isInstanceOf,[Default]), UsedName(ne,[Default]), UsedName(delayedInit,[Default]), UsedName(getClass,[Default]), UsedName(wait,[Default]), UsedName(Airport,[Default]), UsedName(PJ,[Default]), UsedName(!=,[Default]), UsedName(main,[Default]), UsedName(get_airports,[Default]), UsedName($init$,[Default]), UsedName(==,[Default]), UsedName(filename,[Default]), UsedName(executionStart,[Default]), UsedName(isInstanceOf,[Default]), UsedName(get_countries,[Default]), UsedName(synchronized,[Default]), UsedName(finalize,[Default]), UsedName(args,[Default]), UsedName(notify,[Default]), UsedName(equals,[Default]), UsedName(hashCode,[Default]), UsedName($asInstanceOf,[Default])))))[0m
-[0m[[0m[0mdebug[0m] [0m[0mThe PJ$ has the following regular definitions changed:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	UsedName(##,[Default]), UsedName(asInstanceOf,[Default]), UsedName(toString,[Default]), UsedName(notifyAll,[Default]), UsedName(eq,[Default]), UsedName(clone,[Default]), UsedName($isInstanceOf,[Default]), UsedName(ne,[Default]), UsedName(delayedInit,[Default]), UsedName(getClass,[Default]), UsedName(wait,[Default]), UsedName(Airport,[Default]), UsedName(PJ,[Default]), UsedName(!=,[Default]), UsedName(main,[Default]), UsedName(get_airports,[Default]), UsedName($init$,[Default]), UsedName(==,[Default]), UsedName(filename,[Default]), UsedName(executionStart,[Default]), UsedName(isInstanceOf,[Default]), UsedName(get_countries,[Default]), UsedName(synchronized,[Default]), UsedName(finalize,[Default]), UsedName(args,[Default]), UsedName(notify,[Default]), UsedName(equals,[Default]), UsedName(hashCode,[Default]), UsedName($asInstanceOf,[Default]).[0m
-[0m[[0m[0mdebug[0m] [0m[0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0m[0mdebug[0m] [0m[0mFiles invalidated by inheriting from (external) PJ$: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mNow invalidating by inheritance (internally).[0m
-[0m[[0m[0mdebug[0m] [0m[0mGetting direct dependencies of all classes transitively invalidated by inheritance.[0m
-[0m[[0m[0mdebug[0m] [0m[0mGetting classes that directly depend on (external) PJ$.[0m
-[0m[[0m[0mdebug[0m] [0m[0mThe following modified names cause invalidation of PJ_Test: Set(UsedName(PJ,[Default]), UsedName(get_airports,[Default]), UsedName(==,[Default]))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> initialChanges = InitialChanges(Changes(added = Set(), removed = Set(), changed = Set(${BASE}/src/test/scala/PJ_SCALA_AIRPORT.scala), unmodified = ...),Set(),Set(),API Changes: Set())[0m
 [0m[[0m[0mdebug[0m] [0m[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mInitial source changes:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	removed: Set(${BASE}/src/test/scala/PJ.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	added: Set(${BASE}/src/test/scala/PJ_SCALA_AIRPORT.scala)[0m
-[0m[[0m[0mdebug[0m] [0m[0m	modified: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	removed: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	added: Set()[0m
+[0m[[0m[0mdebug[0m] [0m[0m	modified: Set(${BASE}/src/test/scala/PJ_SCALA_AIRPORT.scala)[0m
 [0m[[0m[0mdebug[0m] [0m[0mInvalidated products: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set(NamesChange(PJ$,ModifiedNames(changes = UsedName(##,[Default]), UsedName(asInstanceOf,[Default]), UsedName(toString,[Default]), UsedName(notifyAll,[Default]), UsedName(eq,[Default]), UsedName(clone,[Default]), UsedName($isInstanceOf,[Default]), UsedName(ne,[Default]), UsedName(delayedInit,[Default]), UsedName(getClass,[Default]), UsedName(wait,[Default]), UsedName(Airport,[Default]), UsedName(PJ,[Default]), UsedName(!=,[Default]), UsedName(main,[Default]), UsedName(get_airports,[Default]), UsedName($init$,[Default]), UsedName(==,[Default]), UsedName(filename,[Default]), UsedName(executionStart,[Default]), UsedName(isInstanceOf,[Default]), UsedName(get_countries,[Default]), UsedName(synchronized,[Default]), UsedName(finalize,[Default]), UsedName(args,[Default]), UsedName(notify,[Default]), UsedName(equals,[Default]), UsedName(hashCode,[Default]), UsedName($asInstanceOf,[Default]))))[0m
+[0m[[0m[0mdebug[0m] [0m[0mExternal API changes: API Changes: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mModified binary dependencies: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(PJ_Test)[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial directly invalidated classes: Set(PJ_SCALA_AIRPORT_Test)[0m
 [0m[[0m[0mdebug[0m] [0m[0mSources indirectly invalidated by:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	product: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0m	binary dep: Set()[0m
-[0m[[0m[0mdebug[0m] [0m[0m	external source: Set(PJ_Test)[0m
+[0m[[0m[0mdebug[0m] [0m[0m	external source: Set()[0m
 [0m[[0m[0mdebug[0m] [0m[0mall 1 sources are invalidated[0m
-[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: PJ_Test[0m
+[0m[[0m[0mdebug[0m] [0m[0mInitial set of included nodes: PJ_SCALA_AIRPORT_Test[0m
 [0m[[0m[0mdebug[0m] [0m[0mRecompiling all sources: number of invalidated sources > 50.0% of all sources[0m
 [0m[[0m[0mdebug[0m] [0m[0mcompilation cycle 1[0m
 [0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/target/scala-2.13/test-classes ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mGetting org.scala-sbt:compiler-bridge_2.13:1.5.3:compile for Scala 2.13.1[0m
-[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 5f812aa for Scala compiler version 2.13.1[0m
+[0m[[0m[0mdebug[0m] [0m[0m[zinc] Running cached compiler 5c56b612 for Scala compiler version 2.13.1[0m
 [0m[[0m[0mdebug[0m] [0m[0m[zinc] The Scala compiler is invoked with:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-bootclasspath[0m
 [0m[[0m[0mdebug[0m] [0m[0m	/home/julie/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.1/scala-library-2.13.1.jar[0m
 [0m[[0m[0mdebug[0m] [0m[0m	-classpath[0m
 [0m[[0m[0mdebug[0m] [0m[0m	/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/target/scala-2.13/test-classes:/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/target/scala-2.13/classes:/home/julie/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalatest/scalatest_2.13/3.1.0/scalatest_2.13-3.1.0.jar:/home/julie/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalatest/scalatest-compatible/3.1.0/scalatest-compatible-3.1.0.jar:/home/julie/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalactic/scalactic_2.13/3.1.0/scalactic_2.13-3.1.0.jar:/home/julie/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.1/scala-reflect-2.13.1.jar:/home/julie/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar[0m
-[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 0.790605303 s[0m
+[0m[[0m[0mdebug[0m] [0m[0mScala compilation took 0.399171219 s[0m
 [0m[[0m[0minfo[0m] [0m[0mdone compiling[0m

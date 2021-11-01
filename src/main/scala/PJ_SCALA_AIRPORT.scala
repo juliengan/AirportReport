@@ -8,10 +8,17 @@ import scala.io.Source
 
 object PJ_SCALA_AIRPORT extends App {
 
-  case class Airport(id:Int,ident:String,airport_type:String,name:String,lat_deg:Float,
-                     lon_deg:Float,elevation_dt:String,continent:String,iso_country:String,
-    iso_region:String,municipality:String,scheduled_service:String,gps_code:String,
-  iata_code:String,local_code:String,home_link:String,wikipedia_link:String,keywords:String)
+  """def main(): Unit ={
+    val option:Int = ?
+    option match {
+      case 1: query //display airports & runways at each airport#jQuery ("select * from airport")
+      //soit avec pays, soit avec code (iata) => comparer ident avec airport_ident
+      case 2: //report
+      //soit les 10 pays avec le plus grand nb airports / idem pour plus faible (count)
+      //type de pistes (column 'surface') par pays => pays comparé avec airport puis avec piste
+      // les 10 most common runway latitude ("le_ident")
+    }
+  }"""
 
   def get_airports()={
     //println("Id, Identity, Type name, Latitude, Longitude, Elevation, Continent, " +
@@ -27,10 +34,11 @@ object PJ_SCALA_AIRPORT extends App {
         continent = cols(7),iso_country = cols(8),iso_region=cols(9),municipality = cols(10),scheduled_service = cols(11),
         gps_code = cols(12),iata_code = cols(13),local_code = cols(14),home_link = cols(15),wikipedia_link = cols(16),
         keywords = cols(17))}"""
-      println(cols)
+
 
       //cols.map(x => Airport)
     }
+    println(cols)
     //cols
   }
 
@@ -39,15 +47,12 @@ object PJ_SCALA_AIRPORT extends App {
     val bufferedSource = Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/countries.csv")
     val countries = bufferedSource.getLines().toList
     bufferedSource.close
-    //println(countries)
-    //countries
-    val cols : List[String] = null
+    val cols: List[String] = null    //countries
     for (line <- countries) {
       val cols = line.split(",").map(_.trim).toList
     }
-    println(s"${cols(0)}|${cols(1)}|${cols(2)}|${cols(3)}|${cols(4)}|${cols(5)}|${cols(6)}|${cols(7)}" +
-      s"|${cols(8)}|${cols(9)}|${cols(10)}|${cols(11)}|${cols(12)}|${cols(13)}|${cols(14)}|${cols(15)}")
-    cols
+    println(cols)
+    //cols
   }
 
   def filename()={

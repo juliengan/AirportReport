@@ -1,0 +1,26 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(test, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Test / test[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/target/scala-2.13/test-classes ...[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/src/test/scala/PJ_SCALA_AIRPORT.scala:5:11: comparing values of types Unit and List[String] using `==` will always yield false[0m
+[0m[[0m[33mwarn[0m] [0m[0m    assert(PJ_SCALA_AIRPORT.get_airports() == Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/airports.csv").getLines().toList)[0m
+[0m[[0m[33mwarn[0m] [0m[0m          ^[0m
+[0m[[0m[33mwarn[0m] [0m[0m/home/julie/Bureau/Scala/PJ_SCALA_AIRPORT/src/test/scala/PJ_SCALA_AIRPORT.scala:8:11: comparing values of types Unit and List[String] using `==` will always yield false[0m
+[0m[[0m[33mwarn[0m] [0m[0m    assert(PJ_SCALA_AIRPORT.get_countries() == Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/countries.csv").getLines().toList)[0m
+[0m[[0m[33mwarn[0m] [0m[0m          ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mthere was one deprecation warning (since 3.1.0); re-run with -deprecation for details[0m
+[0m[[0m[33mwarn[0m] [0m[0mthree warnings found[0m
+[0m[[0m[0minfo[0m] [0m[0mdone compiling[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mPJ_SCALA_AIRPORT_Test:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31mPJ_SCALA_AIRPORT_Test *** ABORTED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  Duplicate test name: open function (PJ_SCALA_AIRPORT.scala:7)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 158 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 0, aborted 1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 0, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m*** 1 SUITE ABORTED ***[0m[0m
+[0m[[0m[31merror[0m] [0m[0mError during tests:[0m
+[0m[[0m[31merror[0m] [0m[0m	PJ_SCALA_AIRPORT_Test[0m
+[0m[[0m[31merror[0m] [0m[0m(Test / [31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 1 s, completed 1 nov. 2021 à 16:19:25[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
