@@ -1,0 +1,37 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(test, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Test / test[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mTP_MapReduce_Test:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- giveMeHelloString function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- lastA function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- lastB function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- nthA function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- nthB function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- reverseA function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- reverseB function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- salarySum function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- addressOf function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- average function[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m- monoid *** FAILED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  scala.NotImplementedError: an implementation is missing[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.Predef$.$qmark$qmark$qmark(Predef.scala:347)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at TP_MR$.$anonfun$getRatingsByDepartement$1(TP_MR.scala:189)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.collection.immutable.List.map(List.scala:219)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.collection.immutable.List.map(List.scala:79)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at TP_MR$.getRatingsByDepartement(TP_MR.scala:187)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at TP_MR$.skiRatingAverage(TP_MR.scala:292)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at TP_MapReduce_Test.$anonfun$new$11(TP_MR.scala:72)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at org.scalatest.OutcomeOf.outcomeOf(OutcomeOf.scala:85)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at org.scalatest.OutcomeOf.outcomeOf$(OutcomeOf.scala:83)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  at org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  ...[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 693 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 11[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 10, failed 1, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m*** 1 TEST FAILED ***[0m[0m
+[0m[[0m[31merror[0m] [0m[0mFailed tests:[0m
+[0m[[0m[31merror[0m] [0m[0m	TP_MapReduce_Test[0m
+[0m[[0m[31merror[0m] [0m[0m(Test / [31mtest[0m) sbt.TestsFailedException: Tests unsuccessful[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 3 s, completed 28 oct. 2021 à 22:18:35[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(idea-shell, None, None)[0m
