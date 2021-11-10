@@ -9,22 +9,17 @@ import scala.io.Source
 object PJ_SCALA_AIRPORT extends App {
 
   //def main(): Unit ={
-    println("Query 1 or Report 2 ?"
-  
+    println("Query 1 or Report 2 ?")
+
+
 
   def Init(option : String,airports: List[Airport], countries: List[Country], runways: List[Runway]): Unit = option match {
     case "1" => Query(airports,countries,runways)
-    case ""x => Reports(airports,countries,runways)
+    case "2" => Reports(airports,countries,runways)
     case _ => println("Fin du programme")
   }
 
 
-            
-   def Query(input: String): String = input match { 
-    case "" => " Veuillez entrer un nom ou code de Pays" 
-    case x  => Code(x.toUpperCase()) }
-            
-            
   //def Query (Type) Read le fichier CSV et le parcourir
   //def Reports (Type airports ... csv)
 
