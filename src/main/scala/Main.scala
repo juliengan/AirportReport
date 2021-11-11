@@ -8,13 +8,24 @@ import scala.util.Try
 object Main {
 
 
-  def Initt(option : Int):Unit = option match {
-    case 1 =>
-      val country = getInput()
-      val airportsAndRunways = getAirportsWithRunways(correctInput(country))
-    //airportsAndRunways.foreach{println()}
-    case 2 => Report.InitReport(Report.getInput())
-    case _ => 0
+  def menu():Any = scala.io.StdIn.readLine() match {
+    case "1" => val result = getInput
+      val airportsAndRunways = getAirportsWithRunways(result)
+      airportsAndRunways.foreach(x=> println(x))
+    case "2" => Report.InitReport(Report.getInput())
+
+    case "3" => val airports = CSV.read("airports.csv", Airport.parseAirport)
+      println(airports.nbInvalidLine)
+      airports.lines.foreach(println)
+
+    case "4" => val countries = CSV.read("countries.csv", Country.parseCountry)
+      println(countries.nbInvalidLine)
+      countries.lines.foreach(println)
+
+    case "5" => val runways = CSV.read("runways.csv", Runway.parseRunway)
+      println(runways.nbInvalidLine)
+      runways.lines.foreach(println)
+    case _ => "Invalid input"
   }
 
   def main(args : Array[String]):Unit ={
@@ -26,9 +37,10 @@ object Main {
       "5) Show all runways\n" +
       "" +
       "***************************")
-    val option = Console.in.read()
+    menu()
+    //val option = Console.in.read()
 
-    val result = getInput()
+    /*val result = getInput()
     val airportsAndRunways = getAirportsWithRunways(result)
     airportsAndRunways.foreach(x=> println(x))
     if (option == 1){
@@ -51,7 +63,8 @@ object Main {
       val runways = CSV.read("runways.csv", Runway.parseRunway)
       println(runways.nbInvalidLine)
       runways.lines.foreach(println)
-    }
+    }*/
+    "OK"
 
 
 
