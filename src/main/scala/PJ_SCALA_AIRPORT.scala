@@ -1,80 +1,146 @@
-import scala.collection.MapView
-import scala.io.BufferedSource
-import com.sun.tools.javac.code.Symbol.MethodSymbol
-import com.sun.tools.javac.code.TypeTag
+import controller.CSV
+import model.Airport.countryFromCode
+import model.{Airport, Country, Runway}
 
-import scala.concurrent.ExecutionContext.global
-import scala.io.Source
+import java.awt.im.InputMethodRequests
+import scala.util.Try
 
-object PJ_SCALA_AIRPORT extends App {
+object Main {
 
-  //def main(): Unit ={
-    println("Query 1 or Report 2 ?"
-  
 
-  def Init(option : String,airports: List[Airport], countries: List[Country], runways: List[Runway]): Unit = option match {
-    case "1" => Query(airports,countries,runways)
-    case ""x => Reports(airports,countries,runways)
-    case _ => println("Fin du programme")
+  def Initt(option : Int):Unit = option match {
+    case 1 =>
+      val country = getInput()
+      val airportsAndRunways = getAirportsWithRunways(correctInput(country))
+    //airportsAndRunways.foreach{println()}
+    case 2 => Report.InitReport(Report.getInput())
+    case _ => 0
   }
 
+  def main(args : Array[String]):Unit ={
+    Console.println("*************Menu****************\n" +
+      "1) Query\n" +
+      "2) Report\n" +
+      "3) Show all airports\n" +
+      "4) Show all countries\n" +
+      "5) Show all runways\n" +
+      "" +
+      "***************************")
+    val option = Console.in.read()
 
-            
-   def Query(input: String): String = input match { 
-    case "" => " Veuillez entrer un nom ou code de Pays" 
-    case x  => Code(x.toUpperCase()) }
-            
-            
-  //def Query (Type) Read le fichier CSV et le parcourir
-  //def Reports (Type airports ... csv)
+    val result = getInput()
+    val airportsAndRunways = getAirportsWithRunways(result)
+    airportsAndRunways.foreach(x=> println(x))
+    if (option == 1){
 
-    val option:Int =
-    option match {
-      case 1: query //display airports & runways at each airport#jQuery ("select * from airport")
-      //soit avec pays, soit avec code (iata) => comparer ident avec airport_ident
-      case 2: //report
-      //soit les 10 pays avec le plus grand nb airports / idem pour plus faible (count)
-      //type de pistes (column 'surface') par pays => pays comparé avec airport puis avec piste
-      // les 10 most common runway latitude ("le_ident")
     }
-  }
+    if (option == 2){
 
-  def get_airports()={
-    //println("Id, Identity, Type name, Latitude, Longitude, Elevation, Continent, " +
-      //"ISO_country, ISO_region, Municipality, Scheduled service, gps code, iata code, local code, Home Link")
-    val bufferedSource = Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/airports.csv")
-    val airports = bufferedSource.getLines().toList
-    bufferedSource.close
-    val cols: List[String] = null
-    for (line <- airports) {
-      val cols = line.split(",").map(_.trim).toList
-      """val airports_list = airports.map { airports => Airport(id = airports(cols(0)), ident = cols(1),
-        airport_type = cols(2),name = cols(3),lat_deg=cols(4),lon_deg=cols(5),elevation_dt = cols(6),
-        continent = cols(7),iso_country = cols(8),iso_region=cols(9),municipality = cols(10),scheduled_service = cols(11),
-        gps_code = cols(12),iata_code = cols(13),local_code = cols(14),home_link = cols(15),wikipedia_link = cols(16),
-        keywords = cols(17))}"""
-
-
-      //cols.map(x => Airport)
     }
-    println(cols)
-    //cols
-  }
-
-  def get_countries()={
-    //println("Id, Code, Name, Continent, Wikipedia link, Keywords")
-    val bufferedSource = Source.fromFile("/home/julie/Bureau/Scala/PJ/resources/countries.csv")
-    val countries = bufferedSource.getLines().toList
-    bufferedSource.close
-    val cols: List[String] = null    //countries
-    for (line <- countries) {
-      val cols = line.split(",").map(_.trim).toList
+    if (option == 3){
+      val airports = CSV.read("airports.csv", Airport.parseAirport)
+      println(airports.nbInvalidLine)
+      airports.lines.foreach(println)
     }
-    println(cols)
-    //cols
+    if (option == 4){
+      val countries = CSV.read("countries.csv", Country.parseCountry)
+      println(countries.nbInvalidLine)
+      countries.lines.foreach(println)
+    }
+    if (option == 5){
+      val runways = CSV.read("runways.csv", Runway.parseRunway)
+      println(runways.nbInvalidLine)
+      runways.lines.foreach(println)
+    }
+
+
+
+
   }
 
-  def filename()={
+
+  /** **************************** Parse CSV : countries, airports and runways associated as Iterators of case classes ********************* */
+
+  val airports: Iterator[Airport] = CSV.read("airports.csv", Airport.parseAirport).lines
+  val countries: Iterator[Country] = CSV.read("countries.csv", Country.parseCountry).lines
+  val runways: Iterator[Runway] = CSV.read("runways.csv", Runway.parseRunway).lines
+
+  /** ******************************************************************************************************* */
+
+
+  def getInput(): String = {
+    /** *************************    Returns country code if country entered             ************************ */
+    Console.println("***********************Query to display list of airports and runways at each airport \n" +
+      "Choose the country : \n********************")
+    // User input, either code or country name
+    val country = scala.io.StdIn.readLine("Enter either code or country name : ")
+    country
+  }
+
+  def correctInput(country: String): String = country match {
+    /** ************** Secures the user input country and name matching partial/fuzzy if necessary ****** */
+    case "" => "Please enter country name or code"
+    case x => deriveCountryCode(x.toUpperCase())
+  }
+
+  /** ******************************************* Name matching partial/fuzzy ***************************************************** */
+
+  // Check the country or code entered exists in the database countries (Iterator[Country]) and returns it
+  /*def FuzzyMatching(country: String, inputType: String = "NAME"): String = inputType match {
+    //NAME => user input = country_name
+      /***************!!!!!PROBLEM =>   returns the Iterator[Country], list of all countries matching with the input code/country name
+       * this is not what is expected !!!!
+       */
+    case "NAME" => Try {countries.filter(x => {x.name.toLowerCase() == country.toLowerCase() })}.getOrElse(FuzzyMatching(country, "CODE"))
+
+    // CODE => user input = code
+    case "CODE" => Try {countries.filter(x => {x.name.substring(0, country.length).toLowerCase() == country.toLowerCase()})}
+    .getOrElse(FuzzyMatching(country, "UNMATCHED"))
+    case _ => ""
+  }*/
+
+  /** *********** Retrieves code from country_name ********* */
+  val CodetoCountryMap: Map[String, String] = countries.map { x => (x.code, x.name) }.toMap
+  val CountryToCodeMap: Map[String, String] = CodetoCountryMap.map { case (code, country) => (country, code) }
+
+  /** ********************* Retrieves the country code from the country name ********* */
+  def codeFromCountry(countryName: String): String = Try {
+    CountryToCodeMap(countryName)
+  }.getOrElse("")
+
+
+
+
+  def deriveCountryCode(country: String): String = country.length match {
+    case 2 => country
+    case _ => codeFromCountry(country) //codeFromCountry(FuzzyMatching(country))
+  }
+
+  /** ***************************************************END NAME MATCHING / FUZZY ********************************************************************* */
+
+
+  /** *********** Main function of Query => Query output : returns airports and runways at each airports as a list ****************** */
+
+  /** ***************** container for Airports with country, airport name, identifier and Runways at each of these airports */
+  case class AirportAndRunways(country: String, airportName: String, airportIdentifier: String, runways: List[String] = List[String]())
+
+  def getAirportsWithRunways(inputCountryCode: String): List[AirportAndRunways] = {
+    val countryFromCountryCode: String = countryFromCode(inputCountryCode)
+    val queryOutput: List[AirportAndRunways] = airports.filter(x => {
+      x.iso_country == inputCountryCode
+    })
+      .map { x => AirportAndRunways(countryFromCountryCode, x.name, x.ident) }.toList
+
+    val listRequiredAirports: List[String] = queryOutput.map { x => x.airportIdentifier }
+    val listRequiredRunways: List[Runway] = runways.filter { x => listRequiredAirports.contains(x.airport_ident) }.toList
+
+    /** ****** Add runways to the airport list **** */
+    //AirportsAndRunways.foreach { println }
+    queryOutput
+    /*AirportsAndRunways.map { x =>
+      val runwaysList: List[Runway] = listRequiredRunways.filter(y=> {x.airportIdentifier == y.airport_ident})
+      x..add(runways = runwaysList)
+    }*/
   }
 
 }
