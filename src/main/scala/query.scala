@@ -13,6 +13,8 @@ Console.println("Vous avez choisi #1 Query !")
  
   
 val Pays = scala.io.StdIn.readLine("Veuillez choisir un code ou nom de Pays ")
+  
+println("Vous avez choisi, "+Pays)
 
  
 }
