@@ -1,12 +1,5 @@
-import Main.{airports, countries, parseAirport, parseCountry, parseRunway, runways}
-import controller.CSV
-import model.{Airport, Country, Runway}
+import Main.{airports, parseAirport, parseCountry, parseRunway, runways}
 import model.Airport.countryFromCode
-
-import scala.io.Source
-import scala.collection.MapView
-import scala.io.StdIn.readLine
-import scala.reflect.io.File
 import scala.util.Try
 
 object Report {
