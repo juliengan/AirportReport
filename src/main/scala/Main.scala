@@ -29,41 +29,75 @@ object Main {
   }
 
   def main(args : Array[String]):Unit ={
-    Console.println("*************Menu****************\n" +
-      "1) Query\n" +
-      "2) Report\n" +
-      "3) Show all airports\n" +
-      "4) Show all countries\n" +
-      "5) Show all runways\n" +
-      "" +
-      "***************************")
-    menu()
-    //val option = Console.in.read()
+      Console.println("*************Menu****************\n" +
+        "1) Query\n" +
+        "2) Report\n" +
+        "3) Show all airports\n" +
+        "4) Show all countries\n" +
+        "5) Show all runways\n" +
+        "" +
+        "***************************")
 
-    /*val result = getInput()
-    val airportsAndRunways = getAirportsWithRunways(result)
-    airportsAndRunways.foreach(x=> println(x))
-    if (option == 1){
+      val option = readLine("Please enter your choice > ")
+      //val result = getInput()
+      //  val airportsAndRunways = getAirportsWithRunways(result)
+      // airportsAndRunways.foreach(x=> println(x))
+      import scala.Console
+      Console.println("--->" + option + "<---")
+      if (option == "1"){
+        val query= readLine("Please enter your query> ")
+        val countries = CSV.read("countries.csv", Country.parseCountry)
+        val airports = CSV.read("airports.csv", Airport.parseAirport)
+        val runways = CSV.read("runways.csv", Runway.parseRunway)
+        //query = query.trim
+        println("YOUR QUERY IS  " + query + " --")
+
+        countries.lines.foreach(x => {
+          if(x.name.toUpperCase() == query.toUpperCase()  || x.code.toUpperCase() == query.toUpperCase()){
+            println("WE FOUND " + x)
+            val code = x.code;
+
+            airports.lines.foreach(a =>{
+              if(a.iso_country.toUpperCase() == code.toUpperCase() ){
+                println(a);
+                println("Runways : ");
+                val run_list =  runways.lines.foreach(r => {
+                  if(r.airport_ref.toUpperCase() == a.ident.toUpperCase() ){
+                    println(r);
+                  }
+                });
+
+              }
+            });
+          }
+        } );
+
+
+        //val valeur = Console.in.read();
+        //val airportsAndRunways = getAirportsWithRunways("AM")
+      }
+      if (option == "2"){
+
+      }
+      if (option == "3"){
+        val airports = CSV.read("airports.csv", Airport.parseAirport)
+        println(airports.nbInvalidLine)
+        airports.lines.foreach(println)
+      }
+      if (option == "4"){
+        val countries = CSV.read("countries.csv", Country.parseCountry)
+        println(countries.nbInvalidLine)
+        countries.lines.foreach(println)
+      }
+      if (option == "5"){
+        val runways = CSV.read("runways.csv", Runway.parseRunway)
+        println(runways.nbInvalidLine)
+        runways.lines.foreach(println)
+      }
+
+
 
     }
-    if (option == 2){
-
-    }
-    if (option == 3){
-      val airports = CSV.read("airports.csv", Airport.parseAirport)
-      println(airports.nbInvalidLine)
-      airports.lines.foreach(println)
-    }
-    if (option == 4){
-      val countries = CSV.read("countries.csv", Country.parseCountry)
-      println(countries.nbInvalidLine)
-      countries.lines.foreach(println)
-    }
-    if (option == 5){
-      val runways = CSV.read("runways.csv", Runway.parseRunway)
-      println(runways.nbInvalidLine)
-      runways.lines.foreach(println)
-    }*/
     "OK"
 
 
