@@ -1,47 +1,79 @@
-import Query.getAirportsWithRunways
+import Main.countries
+import Query.{AirportAndRunways}
 import controller.CSV
 import model.Airport.countryFromCode
 import model.{Airport, Country, Runway}
 
+import scala.io
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
 import scala.io.StdIn.readLine
 import scala.util.Try
+import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+
+import scala.io.Source
+import scala.reflect.io.File
 
 object Main {
   /** **************************** Parse CSV : countries, airports and runways associated as Iterators of case classes ********************* */
 
-  val airports: Iterator[Airport] = CSV.read("airports.csv", Airport.parseAirport).lines
-  val countries: Iterator[Country] = CSV.read("countries.csv", Country.parseCountry).lines
-  val runways: Iterator[Runway] = CSV.read("runways.csv", Runway.parseRunway).lines
+  val airports: List[Airport] = CSV.read("airports.csv", Airport.parseAirport).lines.toList
+  val countries: List[Country] = CSV.read("countries.csv", Country.parseCountry).lines.toList
+  val runways: List[Runway] = CSV.read("runways.csv", Runway.parseRunway).lines.toList
+
+  def parseAirport(): List[String] = {
+    Source.fromFile("src/main/scala/data/airports.csv").getLines.drop(1).toList map {
+      _.replaceAll("\"", "")
+    }
+  }
+
+  def parseCountry(): List[String] ={
+    Source.fromFile("src/main/scala/data/countries.csv").getLines.drop(1).toList map {
+      _.replaceAll("\"", "")
+
+    }
+  }
+
+  def parseRunway():List[String]={
+    Source.fromFile("src/main/scala/data/runways.csv").getLines.drop(1).toList map {_.replaceAll("\"", "")}
+  }
+
+  def getAirportsWithRunways() = {
+    println("Please enter the country among all of these")
+    countries.foreach(x => {
+      println(x.name + "--" + x.code)
+    })
+    val query = readLine("Please enter your country in partial name> ")
+
+    //filter airports in a specific country
+    val output: List[AirportAndRunways] = airports.filter(x => {
+      x.lon_deg.toFloat > 40.07080078125
+    }).map { x => AirportAndRunways(query, x.name, x.ident) }.toList
+    //println(output.lastOption)
+    val listRequiredAirports: List[String] = output.map { x => x.airportIdentifier }
+    val listRequiredRunways: List[Runway] = runways.filter { x => listRequiredAirports.contains(x.airport_ident) }.toList
+
+    output.map { x =>
+      val runwaysList: List[Runway] = listRequiredRunways.filter(y => {
+        x.airportIdentifier == y.airport_ident
+      })
+      x.copy(runways = runwaysList)
+    }
+    println(output.headOption)
+    "test checked "
+  }
 
   /** ******************************************************************************************************* */
   def menu(): Any = scala.io.StdIn.readLine("Please enter your choice > ") match {
-    case "1" =>
-      val query = readLine("Please enter your query> ")
-      countries.foreach(x => {
-        if (x.name.toUpperCase() == query.toUpperCase() || x.code.toUpperCase() == query.toUpperCase()) {
+    case "1" => getAirportsWithRunways()
 
-          val code = x.code;
-
-          airports.foreach(a => {
-            if (a.iso_country.toUpperCase() == code.toUpperCase()) {
-              println(a);
-              println("Runways : ");
-              val run_list = runways.foreach(r => {
-                if (r.airport_ref.toUpperCase() == a.ident.toUpperCase()) {
-                  println(r);
-                }
-              });
-
-            }
-          });
-        }
-      });
-
-    //val airportsAndRunways = getAirportsWithRunways("AM")
-    /*val airportsAndRunways = getAirportsWithRunways(scala.io.StdIn.readLine("Enter either code or country name : "))
-      airportsAndRunways.foreach(x=> println(x))*/
-    case "2" => Report.InitReport(Report.getInput())
+    case "2" => Console.println("***********Report****************" +
+      "*************** Choice / Menu : ************************************n" +
+      "\n      \"* 1)    either 10 countries with highest or lowest airports (2)\n"  +
+      "* 3)    type of runways (surface) country\n " +
+      "* 4)    top 10 most common runway latitude (le_ident)\n"+
+      "********************************************************************/")
+      Report.InitReport()
 
     case "3" => airports.foreach(println)
 
@@ -60,6 +92,7 @@ object Main {
       "5) Show all runways\n" +
       "" +
       "***************************")
+
     menu()
 
   }
