@@ -1,17 +1,47 @@
+import Query.getAirportsWithRunways
 import controller.CSV
 import model.Airport.countryFromCode
 import model.{Airport, Country, Runway}
 
-import java.awt.im.InputMethodRequests
+import scala.collection.IterableOnce.iterableOnceExtensionMethods
+import scala.io.StdIn.readLine
 import scala.util.Try
 
 object Main {
 
+  def menu():Any = scala.io.StdIn.readLine("Please enter your choice > ") match {
+    case "1" =>
+      val query= readLine("Please enter your query> ")
+      val countries = CSV.read("countries.csv", Country.parseCountry)
+      val airports = CSV.read("airports.csv", Airport.parseAirport)
+      val runways = CSV.read("runways.csv", Runway.parseRunway)
+      countries.lines.foreach(x => {
+        if(x.name.toUpperCase() == query.toUpperCase()  || x.code.toUpperCase() == query.toUpperCase()){
 
-  def menu():Any = scala.io.StdIn.readLine() match {
-    case "1" => val result = getInput
-      val airportsAndRunways = getAirportsWithRunways(result)
-      airportsAndRunways.foreach(x=> println(x))
+          val code = x.code;
+
+          airports.lines.foreach(a =>{
+            if(a.iso_country.toUpperCase() == code.toUpperCase() ){
+              println(a);
+              println("Runways : ");
+              val run_list =  runways.lines.foreach(r => {
+                if(r.airport_ref.toUpperCase() == a.ident.toUpperCase() ){
+                  println(r);
+                }
+              });
+
+
+
+            }
+          });
+        }
+      } );
+
+
+    //val valeur = Console.in.read();
+    //val airportsAndRunways = getAirportsWithRunways("AM")
+      /*val airportsAndRunways = getAirportsWithRunways(scala.io.StdIn.readLine("Enter either code or country name : "))
+      airportsAndRunways.foreach(x=> println(x))*/
     case "2" => Report.InitReport(Report.getInput())
 
     case "3" => val airports = CSV.read("airports.csv", Airport.parseAirport)
@@ -29,77 +59,17 @@ object Main {
   }
 
   def main(args : Array[String]):Unit ={
-      Console.println("*************Menu****************\n" +
-        "1) Query\n" +
-        "2) Report\n" +
-        "3) Show all airports\n" +
-        "4) Show all countries\n" +
-        "5) Show all runways\n" +
-        "" +
-        "***************************")
+    Console.println("*************Menu****************\n" +
+      "1) Query\n" +
+      "2) Report\n" +
+      "3) Show all airports\n" +
+      "4) Show all countries\n" +
+      "5) Show all runways\n" +
+      "" +
+      "***************************")
+    menu()
 
-      val option = readLine("Please enter your choice > ")
-      //val result = getInput()
-      //  val airportsAndRunways = getAirportsWithRunways(result)
-      // airportsAndRunways.foreach(x=> println(x))
-      if (option == "1"){
-        val query= readLine("Please enter your query> ")
-        val countries = CSV.read("countries.csv", Country.parseCountry)
-        val airports = CSV.read("airports.csv", Airport.parseAirport)
-        val runways = CSV.read("runways.csv", Runway.parseRunway)
-
-
-
-
-        countries.lines.foreach(x => {
-          if(x.name.toUpperCase() == query.toUpperCase()  || x.code.toUpperCase() == query.toUpperCase()){
-
-            val code = x.code;
-
-            airports.lines.foreach(a =>{
-              if(a.iso_country.toUpperCase() == code.toUpperCase() ){
-                println(a);
-                println("Runways : ");
-                val run_list =  runways.lines.foreach(r => {
-                  if(r.airport_ref.toUpperCase() == a.ident.toUpperCase() ){
-                    println(r);
-                  }
-                });
-
-
-
-              }
-            });
-          }
-        } );
-
-
-        //val valeur = Console.in.read();
-        //val airportsAndRunways = getAirportsWithRunways("AM")
-      }
-      if (option == "2"){
-        Report.InitReport(Report.getInput())
-      }
-      if (option == "3"){
-        val airports = CSV.read("airports.csv", Airport.parseAirport)
-        println(airports.nbInvalidLine)
-        airports.lines.foreach(println)
-      }
-      if (option == "4"){
-        val countries = CSV.read("countries.csv", Country.parseCountry)
-        println(countries.nbInvalidLine)
-        countries.lines.foreach(println)
-      }
-      if (option == "5"){
-        val runways = CSV.read("runways.csv", Runway.parseRunway)
-        println(runways.nbInvalidLine)
-        runways.lines.foreach(println)
-      }
-
-
-
-    }
-
+  }
 
   /** **************************** Parse CSV : countries, airports and runways associated as Iterators of case classes ********************* */
 
@@ -110,7 +80,7 @@ object Main {
   /** ******************************************************************************************************* */
 
 
-  def getInput(): String = {
+  def getInput: String = {
     /** *************************    Returns country code if country entered             ************************ */
     Console.println("***********************Query to display list of airports and runways at each airport \n" +
       "Choose the country : \n********************")
@@ -185,4 +155,9 @@ object Main {
     }*/
   }
 
-}
+
+
+
+
+  }
+
