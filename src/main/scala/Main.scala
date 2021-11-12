@@ -42,19 +42,18 @@ object Main {
       //val result = getInput()
       //  val airportsAndRunways = getAirportsWithRunways(result)
       // airportsAndRunways.foreach(x=> println(x))
-      import scala.Console
-      Console.println("--->" + option + "<---")
       if (option == "1"){
         val query= readLine("Please enter your query> ")
         val countries = CSV.read("countries.csv", Country.parseCountry)
         val airports = CSV.read("airports.csv", Airport.parseAirport)
         val runways = CSV.read("runways.csv", Runway.parseRunway)
-        //query = query.trim
-        println("YOUR QUERY IS  " + query + " --")
+
+
+
 
         countries.lines.foreach(x => {
           if(x.name.toUpperCase() == query.toUpperCase()  || x.code.toUpperCase() == query.toUpperCase()){
-            println("WE FOUND " + x)
+
             val code = x.code;
 
             airports.lines.foreach(a =>{
@@ -67,6 +66,8 @@ object Main {
                   }
                 });
 
+
+
               }
             });
           }
@@ -77,7 +78,7 @@ object Main {
         //val airportsAndRunways = getAirportsWithRunways("AM")
       }
       if (option == "2"){
-
+        Report.InitReport(Report.getInput())
       }
       if (option == "3"){
         val airports = CSV.read("airports.csv", Airport.parseAirport)
@@ -98,12 +99,6 @@ object Main {
 
 
     }
-    "OK"
-
-
-
-
-  }
 
 
   /** **************************** Parse CSV : countries, airports and runways associated as Iterators of case classes ********************* */
