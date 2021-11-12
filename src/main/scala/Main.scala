@@ -1,18 +1,12 @@
-import Main.countries
-import Query.{AirportAndRunways}
+import Query.AirportAndRunways
+import Report.{airportsData, countriesData, runwaysData}
 import controller.CSV
 import model.Airport.countryFromCode
 import model.{Airport, Country, Runway}
 
-import scala.io
-import scala.collection.IterableOnce.iterableOnceExtensionMethods
 import scala.io.StdIn.readLine
-import scala.util.Try
-import org.apache.spark.sql.{Row, SparkSession}
-import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
-
 import scala.io.Source
-import scala.reflect.io.File
+import scala.util.Try
 
 object Main {
   /** **************************** Parse CSV : countries, airports and runways associated as Iterators of case classes ********************* */
@@ -28,7 +22,7 @@ object Main {
   }
 
   def parseCountry(): List[String] ={
-    Source.fromFile("src/main/scala/data/countries.csv").getLines.drop(1).toList map {
+    Source.fromFile("src/main/scala/data/countries.csv").getLines.drop(1).toList.map {
       _.replaceAll("\"", "")
 
     }
@@ -38,34 +32,75 @@ object Main {
     Source.fromFile("src/main/scala/data/runways.csv").getLines.drop(1).toList map {_.replaceAll("\"", "")}
   }
 
-  def getAirportsWithRunways() = {
-    println("Please enter the country among all of these")
-    countries.foreach(x => {
-      println(x.name + "--" + x.code)
-    })
-    val query = readLine("Please enter your country in partial name> ")
+  /*****************************************                END PARSE           ***************************************/
+
+  def correctInput(country: String): String = country match {
+    /** ************** Secures the user input country and name matching partial/fuzzy if necessary ****** */
+    case "" => "Please enter country name or code"
+    case x => deriveCountryCode(x.toUpperCase())
+  }
+
+  /** ******************************************* Name matching partial/fuzzy ***************************************************** */
+
+  // Check the country or code entered exists in the database countries (Iterator[Country]) and returns it
+  def FuzzyMatching(passedInput: String, matchLogic: String = "FULL"): String = matchLogic match {
+    case "FULL" => Try {
+      countriesData.find { _.split(",")(2).toLowerCase() == passedInput.toLowerCase() }.
+        map { _.split(",")(2) }.toList.head
+    }.getOrElse(FuzzyMatching(passedInput, "PARTIAL"))
+    case "PARTIAL" => Try {
+      countriesData.find { _.split(",")(2).substring(0, passedInput.length).toLowerCase() == passedInput.toLowerCase() }.
+        map { _.split(",")(2) }.toList.head
+    }.getOrElse(FuzzyMatching(passedInput, "UNMATCHED"))
+    case _ => ""
+  }
+
+  /** *********** Retrieves code from country_name ********* */
+  val CodetoCountryMap: Map[String, String] = countries.map { x => (x.code, x.name) }.toMap
+
+  val CountryToCodeMap: Map[String, String] = CodetoCountryMap.map { case (code, country) => (country, code) }
+
+  /** ********************* Retrieves the country code from the country name ********* */
+  def codeFromCountry(countryName: String): String = Try {
+    CountryToCodeMap(countryName)
+  }.getOrElse("")
+
+
+  def deriveCountryCode(country: String): String = country.length match {
+    case 2 => country
+    case _ => codeFromCountry(FuzzyMatching(country)) //codeFromCountry(FuzzyMatching(country))
+  }
+
+  def getAirportsWithRunways(query: String): Option[AirportAndRunways] = {
+    val countryFromCountryCode: String = countryFromCode(query)
 
     //filter airports in a specific country
-    val output: List[AirportAndRunways] = airports.filter(x => {
-      x.lon_deg.toFloat > 40.07080078125
-    }).map { x => AirportAndRunways(query, x.name, x.ident) }.toList
+    val output: List[AirportAndRunways] = airportsData.filter{_.split(",")(8) == query}
+      .map { x => AirportAndRunways(countryFromCountryCode, x.split(",")(3), x.split(",")(1)) }
     //println(output.lastOption)
     val listRequiredAirports: List[String] = output.map { x => x.airportIdentifier }
-    val listRequiredRunways: List[Runway] = runways.filter { x => listRequiredAirports.contains(x.airport_ident) }.toList
+    val listRequiredRunways: List[String] = runwaysData.filter { x => listRequiredAirports.contains(x.split(",")(2)) }
 
     output.map { x =>
-      val runwaysList: List[Runway] = listRequiredRunways.filter(y => {
-        x.airportIdentifier == y.airport_ident
-      })
+      val runwaysList: List[String] = listRequiredRunways.filter{ _.split(",")(2) == x.airportIdentifier}
       x.copy(runways = runwaysList)
     }
+
+    // We print only the first value because there a lot of airports and runways in output
     println(output.headOption)
-    "test checked "
+    output.headOption
   }
 
   /** ******************************************************************************************************* */
   def menu(): Any = scala.io.StdIn.readLine("Please enter your choice > ") match {
-    case "1" => getAirportsWithRunways()
+    case "1" => Console.println("***********************Query to display list of airports and runways at each airport******************** \n" +
+      "Choose the country : \n*************************************************************")
+      println("Please enter the country among all of these")
+      countries.foreach(x => {
+        println(x.name + "--" + x.code)
+      })
+      val query = scala.io.StdIn.readLine("Please enter a country > ")
+      getAirportsWithRunways(deriveCountryCode(query))
 
     case "2" => Console.println("***********Report****************" +
       "*************** Choice / Menu : ************************************n" +
