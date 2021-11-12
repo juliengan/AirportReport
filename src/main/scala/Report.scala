@@ -58,4 +58,4 @@ object Report {
     case _ => println("Wrong input : chose between 1 and 4")
   }
 
-}
+} 
