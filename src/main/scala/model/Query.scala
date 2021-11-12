@@ -1,70 +1,60 @@
-[15:04] Julie NGAN
-import Main.{airports, countries, parseAirport, parseCountry, parseRunway, runways}
+import Main.{airports, countries, runways}
 import controller.CSV
-import model.{Airport, Country, Runway}
 import model.Airport.countryFromCode
-import scala.io.Source
-import scala.collection.MapView
+import model.{Airport, Country, Runway}
+
 import scala.io.StdIn.readLine
-import scala.reflect.io.File
 import scala.util.Try
 
-object Report {
-  val countriesData = parseCountry()
-  val airportsData = parseAirport()
-  val runwaysData = parseRunway()
-  def highest() = {
-    val AirportsCount: List[(String, Int)] = airportsData.map(_.split(",")(8)).groupBy(identity).mapValues { _.size }.toList
-    /*** List of 10 countries with highest number of airports
-     * MapReduce => * 1) Map : retrieves tuples from countries (iso_country) and from airports (code)
-     * => compare the two and increment the number of airports => we get at the end a list
-     * of tuples containing the (name of the country, number of airports)
-     * 2) Reduce : we sort the list in descending order to keep the first first tuples and return them */
-    val reverseSortedCountries: List[(String, Int)] = AirportsCount.sortWith(-_._2 < -_._2)
-    val topTenAirportsCountries: List[(String, Int)] = reverseSortedCountries.take(10)
-    topTenAirportsCountries.foreach(x=>println(x._1,x._2))
-    "test checked "
+object Query {
+
+  def getInput: String = {
+    /** *************************    Returns country code if country entered             ************************ */
+    Console.println("***********************Query to display list of airports and runways at each airport \n" +
+      "Choose the country : \n********************")
+    // User input, either code or country name
+    scala.io.StdIn.readLine("Enter either code or country name : ")
   }
 
-  def lowest() ={
-    /*** List of 10 countries with lowest number of airports ***/
-    val AirportsCount: List[(String, Int)] = airportsData.map(_.split(",")(8)).groupBy(identity).mapValues { _.size }.toList
-    val sortedCountries: List[(String, Int)] = AirportsCount.sortWith(_._2 < _._2)
-    val bottomTenAirportsCountries: List[(String, Int)] = sortedCountries.take(10)
-    bottomTenAirportsCountries.foreach(x=>println(x._1,x._2))
-    "test checked "
+  def correctInput(country: String): String = country match {
+    /** ************** Secures the user input country and name matching partial/fuzzy if necessary ****** */
+    case "" => "Please enter country name or code"
+    case x => deriveCountryCode(x.toUpperCase())
   }
 
-  def runwayTypes() = {
-    /** * Type of Runways ("surface") per Country ** */
-    val SurfaceType = runways.map { x => (x.airport_ident, x.surface) }.toMap
-    val listCountryType = airports.map(x => (countryFromCode(x.iso_country), Try {SurfaceType(x.ident)}.getOrElse(""))).toList
-    val runwaysSurfacePerCountry = listCountryType groupBy (_._1) mapValues { x => x.filterNot {_._2 == ""}.map(_._2)}
-    runwaysSurfacePerCountry.toList.foreach(x=>println(x))
+  /** ******************************************* Name matching partial/fuzzy ***************************************************** */
+  // Check the country or code entered exists in the database countries (Iterator[Country]) and returns it
+  /*def FuzzyMatching(country: String, inputType: String = "NAME"): String = inputType match {
+    //NAME => user input = country_name
+      /***************!!!!!PROBLEM =>   returns the Iterator[Country], list of all countries matching with the input code/country name
+       * this is not what is expected !!!!
+       */
+    case "NAME" => Try {countries.filter(x => {x.name.toLowerCase() == country.toLowerCase() })}.getOrElse(FuzzyMatching(country, "CODE"))
+    // CODE => user input = code
+    case "CODE" => Try {countries.filter(x => {x.name.substring(0, country.length).toLowerCase() == country.toLowerCase()})}
+    .getOrElse(FuzzyMatching(country, "UNMATCHED"))
+    case _ => ""
+  }*/
+  /** *********** Retrieves code from country_name ********* */
+  val CountryToCodeMap: Map[String, String] = CodetoCountryMap.map { case (code, country) => (country, code) }
+
+  /** ********************* Retrieves the country code from the country name ********* */
+  def codeFromCountry(countryName: String): String = Try {
+    CountryToCodeMap(countryName)
+  }.getOrElse("")
+
+  val CodetoCountryMap: Map[String, String] = countries.map { x => (x.code, x.name) }.toMap
+
+
+  def deriveCountryCode(country: String): String = country.length match {
+    case 2 => country
+    case _ => codeFromCountry(country) //codeFromCountry(FuzzyMatching(country))
   }
 
-  def commonIdentity() = {
-    /** ** The 10 most common runway identity ("le_ident") *** */
-    // runways : table
-    // select * from runwys
-    //  on veut common identity => select identity from runways group by
-    val mostCommonRunways: List[String] = runways.map(x => Try {x.le_ident}.getOrElse("")).toList.groupBy(identity).mapValues {_.size
-    }.toList.sortWith(-_._2 < -_._2).take(10).map { case (id, count) => id }
-    mostCommonRunways.foreach(x=>println(x))
-  }
+  /** ***************************************************END NAME MATCHING / FUZZY ********************************************************************* */
+  /** *********** Main function of Query => Query output : returns airports and runways at each airports as a list ****************** */
+  /** ***************** container for Airports with country, airport name, identifier and Runways at each of these airports */
+  case class AirportAndRunways(country: String, airportName: String, airportIdentifier: String, runways: List[Runway] = List[Runway]())
 
-  def InitReport(): Any = scala.io.StdIn.readLine("Please enter your choice > ") match {
-
-    case "1" => highest()
-
-    case "2" => lowest()
-
-    case "3" => runwayTypes()
-
-    case "4" => commonIdentity()
-    case _ => println("Wrong input : chose between 1 and 4")
-  }
 
 }
-
-
