@@ -32,10 +32,7 @@ object Report {
     case 4 => Top10Identity()
   }
   
-  
-  /**
-   * A List with Tuple2 of country name and the count of airports.
-   */
+  //List of tuples country name and the number of airports
   //Iterator[Airport] != List[Airport] ;
   /*val groupByMapAirportsCount: List[(String, Int)] = airports.map(x => x.iso_country).toList.groupBy(identity).mapValues { airports.length }
   def HighestAirports(): List[(String, Int)] ={
@@ -62,10 +59,6 @@ object Report {
       SurfaceType(x.ident)
     }.getOrElse(""))
     }.toList
-    /** *** Grouping the above list structure to obtain a country with its set of runways
-     * Also filtering out countries for which surface information is not available.
-     */
-    
     
     val runwaysSurfacePerCountry: MapView[String, Set[String]] = listCountryType groupBy (_._1) mapValues { x => x.filterNot {
       _._2 == ""
@@ -73,7 +66,6 @@ object Report {
     }
     runwaysSurfacePerCountry
   }
-  
   
   def Top10Identity(): List[String] = {
     /** ** The 10 most common runway identity ("le_ident") *** */
